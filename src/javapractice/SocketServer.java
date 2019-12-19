@@ -1,5 +1,7 @@
 package javapractice;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.*;
 
 public class SocketServer extends ServerSocket {
@@ -70,6 +72,22 @@ public class SocketServer extends ServerSocket {
                             oos.flush();
                             break;
                         }
+                        case Message.REFLECTION_CALL:{
+                            String function=message.getFunction();
+                            Object[] args=message.getArgs();
+                            int argc=args.length;
+                            Class[] argClass=new Class[argc];
+                            for(int i=0;i<argc;++i){
+                                argClass[i]=args[i].getClass();
+                            }
+                            Class cls=DataProcessing.class;
+                            Method method=cls.getMethod(function,argClass);
+                            Object returnObject=method.invoke(cls,args);
+                            Message messageReturn=new Message(function,message.getUsername(),returnObject);
+                            oos.writeObject(messageReturn);
+                            oos.flush();
+                            break;
+                        }
                         case Message.CLOSE:{
                             os.close();
                             is.close();
@@ -86,6 +104,15 @@ public class SocketServer extends ServerSocket {
 //                return;
 //            }
             catch(IOException e){
+                e.printStackTrace();
+            }
+            catch(NoSuchMethodException e){
+                e.printStackTrace();
+            }
+            catch(IllegalAccessException e){
+                e.printStackTrace();
+            }
+            catch(InvocationTargetException e){
                 e.printStackTrace();
             }
 //            catch (InterruptedException e){
