@@ -16,7 +16,7 @@ public class DataProcessing {
 //    static String SERVER_FILE_DIRECTORY = "E:\\JAVA practice\\ServerFiles\\";
 //    static String DIRECTORY_TO_UPLOAD = "E:\\JAVA practice\\FilesToUpload\\";
 //    static String DOWNLOAD_DIRECTORY = "E:\\JAVA practice\\Download\\";
-    static String driverName = "com.mysql.jdbc.Driver";               // 加载数据库驱动类
+    static String driverName = "com.mysql.cj.jdbc.Driver";               // 加载数据库驱动类
     static String URL = "jdbc:mysql://localhost:3306/document?serverTimezone=GMT%2B8";       // 声明数据库的URL
     static String USER = "root";                                      // 数据库用户
     static String PASSWORD = "root";
